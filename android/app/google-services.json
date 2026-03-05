@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1095240106760",
+    "project_id": "attandence-v3",
+    "storage_bucket": "attandence-v3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095240106760:android:6ef1c52673eec7917922bd",
+        "android_client_info": {
+          "package_name": "com.example.attandence_v3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0Xf17HFIScOspaipgmWv9fAHTGWe1MZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095240106760:android:3686a9220da98cd67922bd",
+        "android_client_info": {
+          "package_name": "com.example.attandence_v4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0Xf17HFIScOspaipgmWv9fAHTGWe1MZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
