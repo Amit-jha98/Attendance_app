@@ -143,13 +143,13 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    const Color(0xFF64B5F6).withOpacity(0.6),
+                    const Color(0xFF64B5F6).withValues(alpha: 0.6),
                     // Bright Blue with opacity
-                    const Color(0xFFE1ECA5).withOpacity(0.6),
+                    const Color(0xFFE1ECA5).withValues(alpha: 0.6),
                     // Light Green with opacity
-                    const Color(0xFFEC9CC4).withOpacity(0.6),
+                    const Color(0xFFEC9CC4).withValues(alpha: 0.6),
                     // Bright Pink with opacity
-                    const Color(0xFF64B5F6).withOpacity(0.6),
+                    const Color(0xFF64B5F6).withValues(alpha: 0.6),
                     // Bright Blue with opacity
                   ],
                   begin: Alignment.topLeft,
@@ -163,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
               child: Container(
-                color: Colors.black.withOpacity(
-                    0.3), // Semi-transparent black overlay
+                color: Colors.black.withValues(
+                    alpha: 0.3), // Semi-transparent black overlay
               ),
             ),
           ),
@@ -200,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Shadow(
                             offset: const Offset(2.0, 2.0),
                             blurRadius: 4.0,
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withValues(alpha: 0.5),
                           ),
                         ],
                       ),

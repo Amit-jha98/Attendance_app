@@ -10,6 +10,12 @@ import 'branch_semester_selection_screen.dart';
 import 'view_saved_files_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
+class AppColors {
+  static const Color presentGreen = Color(0xFF10B981); // Emerald Green
+  static const Color lateAmber = Color(0xFFF59E0B);    // Amber
+  static const Color absentRose = Color(0xFFF43F5E);   // Rose
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -86,9 +92,23 @@ class AttendanceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'GEC Madhubani',
+      title: 'Saraswati Shiksha Institute – Staff Attendance Portal',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        primaryColor: const Color(0xFF0F172A),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0F172A),
+          primary: const Color(0xFF0F172A),
+          surface: const Color(0xFFF8FAFC),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF0F172A),
+          foregroundColor: Colors.white,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Color(0xFF64748B)),
+        ),
       ),
       home: const WelcomePage(),
       routes: {

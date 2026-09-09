@@ -477,7 +477,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
             child: Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: filteredStudents.isEmpty
@@ -499,8 +499,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           borderRadius: BorderRadius.circular(15.0),
                           gradient: LinearGradient(
                             colors: [
-                              Colors.white.withOpacity(0.9),
-                              Colors.grey[200]!.withOpacity(0.9)
+                              Colors.white.withValues(alpha: 0.9),
+                              Colors.grey[200]!.withValues(alpha: 0.9)
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -611,7 +611,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0),
+                      color: Colors.white.withValues(alpha: 0),
                       borderRadius: BorderRadius.circular(10.0),
                       boxShadow: const [
                         BoxShadow(

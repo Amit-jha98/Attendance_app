@@ -184,7 +184,7 @@ class _ViewSavedFilesScreenState extends State<ViewSavedFilesScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                color: isSelected ? Colors.blue.withOpacity(0.2) : Colors.white,
+                color: isSelected ? Colors.blue.withValues(alpha: 0.2) : Colors.white,
                 child: ListTile(
                   onTap: () => _toggleSelection(file),
                   contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
