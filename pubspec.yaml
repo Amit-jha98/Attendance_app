@@ -11,7 +11,7 @@ dependencies:
   shared_preferences: ^2.0.13
   flutter:
     sdk: flutter
-
+  google_fonts: ^6.1.0 # Add this line here
   cupertino_icons: ^1.0.6
   firebase_core: ^3.3.0
   cloud_firestore: ^5.2.0

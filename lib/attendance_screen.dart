@@ -123,32 +123,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
 
   Future<void> _exportToExcel() async {
-    // // Define a function to get batch year based on registration number
-    // String getBatchYear(String registrationNumber) {
-    //   // Extract the year prefix based on the format
-    //   String yearPrefix;
-    //
-    //   if (registrationNumber.contains('-')) {
-    //     // Handle alphanumeric format (e.g., 24-CS-49)
-    //     yearPrefix = registrationNumber.split('-')[0]; // Extract the year part
-    //   } else {
-    //     // Handle purely numeric format (e.g., 23101150001)
-    //     yearPrefix = registrationNumber.substring(0, 2); // Extract the first two digits
-    //   }
-    //
-    //   final startYear = 2000 + int.parse(yearPrefix);
-    //   final endYear = startYear + 4;
-    //   return '$startYear-$endYear';
-    // }
-
-
     if (filteredStudents.isEmpty) {
       print('No student data to export.');
       return;
     }
 
     final firstStudent = filteredStudents.first;
-    // final batchYear = getBatchYear(firstStudent.registration_number);
 
     final directory = await getApplicationDocumentsDirectory();
     final fileName = 'attendance_${branch}_${semester}_${subject}_${facultyName}_$session.xlsx';
@@ -387,6 +367,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     Navigator.pop(context);
   }
 
+  Widget buildFooterWatermark() {
+    return Container(
+      padding: const EdgeInsets.all(12.0),
+      alignment: Alignment.center,
+      child: const Text(
+        'Powered by Nextgenix Tech',
+        style: TextStyle(
+          color: Color(0xFF64748B), // Slate Gray secondary text
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -397,246 +392,245 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         }
         return true; // Allow default back navigation
       },
-    child:  Scaffold(
-      appBar:  AppBar(
-        title: Text(
-        '$branch - $semester',
-        style: const TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-    ),
-    ),
-    backgroundColor: Colors.transparent,
-    elevation: 0,
-    flexibleSpace: Container(
-    decoration: const BoxDecoration(
-    gradient: LinearGradient(
-    colors: [
-    Color(0xFF9ED4EA),
-    Color(0xFF64B5F6),
-    Color(0xFF99C1E4),
-    Color(0xFF64B5F6),
-    ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    stops: [0.0, 0.3, 0.7, 1.0],
-    ),
-    ),
-    ),
-    actions: [
-    IconButton(
-    icon: const Icon(Icons.search, color: Colors.black),
-    onPressed: _toggleSearch,
-    tooltip: 'Search',
-    ),
-    IconButton(
-    icon: const Icon(Icons.logout, color: Colors.black),
-    onPressed: _logout,
-    tooltip: 'Log Out',
-    ),
-    ],
-    bottom: _isSearching
-    ? PreferredSize(
-    preferredSize: const Size.fromHeight(50.0),
-    child: Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: TextField(
-    autofocus: true,
-    decoration: const InputDecoration(
-    hintText: 'Search by name or registration number',
-    border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    ),
-    prefixIcon: Icon(Icons.search),
-    ),
-    onChanged: _searchStudents,
-    ),
-    ),
-    )
-        : null,
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Stack(
-        children: [
-          Container(
+      child:  Scaffold(
+        appBar:  AppBar(
+          title: const Text('Saraswati Shiksha Institute – Staff Attendance Portal'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
+                  Color(0xFF9ED4EA),
                   Color(0xFF64B5F6),
-                  Color(0xFFE1ECA5),
-                  Color(0xFFEC9CC4),
+                  Color(0xFF99C1E4),
                   Color(0xFF64B5F6),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
+                stops: [0.0, 0.3, 0.7, 1.0],
               ),
             ),
           ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-            child: Container(
-              color: Colors.black.withValues(alpha: 0.3),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: filteredStudents.isEmpty
-                    ? const Center(child: Text('No students found.'))
-                    : ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 80.0),
-                  itemCount: filteredStudents.length,
-                  itemBuilder: (context, index) {
-                    final student = filteredStudents[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 4.0),
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.white.withValues(alpha: 0.9),
-                              Colors.grey[200]!.withValues(alpha: 0.9)
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 10.0,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.blueAccent,
-                            child: Text(
-                              student.name[0],
-                              style: const TextStyle(
-                                  color: Colors.white),
-                            ),
-                          ),
-                          title: Text(
-                            student.name,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'Reg No: ${student.registration_number}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          trailing: Checkbox(
-                            value: student.isPresent,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                student.isPresent =
-                                    value ?? false;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search, color: Colors.black),
+              onPressed: _toggleSearch,
+              tooltip: 'Search',
+            ),
+            IconButton(
+              icon: const Icon(Icons.logout, color: Colors.black),
+              onPressed: _logout,
+              tooltip: 'Log Out',
+            ),
+          ],
+          bottom: _isSearching
+              ? PreferredSize(
+            preferredSize: const Size.fromHeight(50.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Search by name or registration number',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  prefixIcon: Icon(Icons.search),
                 ),
+                onChanged: _searchStudents,
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [Container(
-                color: Colors.transparent,
-                height: 70.0,
-                padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                child: Center(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: GestureDetector(
-                      onTap: _isLoading ? null : _submitAttendance, // Detects touch on both icon and text
-                      child: FloatingActionButton.extended(
-                        onPressed: _isLoading ? null : _submitAttendance,
-                        label: _isLoading
-                            ? const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2.5,
-                            ),
-                            SizedBox(width: 5),
-                            Text('Loading...'),
-                          ],
-                        )
-                            : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(width: 0),
-                            Icon(Icons.check_circle),
-                            SizedBox(width: 2), // Add some space between icon and text
-                            Text('Submit'),
-                          ],
-                        ),
-                        backgroundColor: const Color.fromRGBO(82, 162, 244, 1),
-                        elevation: 5.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        extendedPadding: const EdgeInsets.symmetric(horizontal: 18),
+          )
+              : null,
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF64B5F6),
+                          Color(0xFFE1ECA5),
+                          Color(0xFFEC9CC4),
+                          Color(0xFF64B5F6),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
                     ),
                   ),
-                ),
-              ),
-
-                Positioned(
-                  left: 50,
-                  right: 150,
-                  bottom: 8, // Adjust this value to position the count box properly
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0),
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: const [
-                        BoxShadow(
+                  BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.3),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: filteredStudents.isEmpty
+                            ? const Center(child: Text('No students found.'))
+                            : ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 80.0),
+                          itemCount: filteredStudents.length,
+                          itemBuilder: (context, index) {
+                            final student = filteredStudents[index];
+                            return Card(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
+                              elevation: 8.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withValues(alpha: 0.9),
+                                      Colors.grey[200]!.withValues(alpha: 0.9)
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 10.0,
+                                      offset: Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.blueAccent,
+                                    child: Text(
+                                      student.name[0],
+                                      style: const TextStyle(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    student.name,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Reg No: ${student.registration_number}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  trailing: Checkbox(
+                                    value: student.isPresent,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        student.isPresent =
+                                            value ?? false;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
                           color: Colors.transparent,
-                          blurRadius: 5.0,
-                          offset: Offset(0, 2),
+                          height: 70.0,
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: Center(
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: GestureDetector(
+                                onTap: _isLoading ? null : _submitAttendance,
+                                child: FloatingActionButton.extended(
+                                  onPressed: _isLoading ? null : _submitAttendance,
+                                  label: _isLoading
+                                      ? const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2.5,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text('Loading...'),
+                                    ],
+                                  )
+                                      : const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 0),
+                                      Icon(Icons.check_circle),
+                                      SizedBox(width: 2),
+                                      Text('Submit'),
+                                    ],
+                                  ),
+                                  backgroundColor: const Color.fromRGBO(82, 162, 244, 1),
+                                  elevation: 5.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ),
+                                  extendedPadding: const EdgeInsets.symmetric(horizontal: 18),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          right: 150,
+                          bottom: 8,
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0),
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.transparent,
+                                  blurRadius: 5.0,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '$_checkedCount',
+                              style: const TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    child: Text(
-                      '$_checkedCount',
-                      style: const TextStyle(
-                        fontSize: 22.0,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold,
-    ),
-    ),
-
-    ),
-    ),
-        ],
-      ),
-    ),
-    ],
-    ),
+                  ),
+                ],
+              ),
+            ),
+            buildFooterWatermark(),
+          ],
+        ),
       ),
     );
   }
