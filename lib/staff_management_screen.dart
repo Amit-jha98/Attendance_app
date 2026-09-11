@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'staff_portal_screen.dart'; // Import the staff portal screen
 
 class StaffManagementScreen extends StatefulWidget {
   const StaffManagementScreen({super.key});
@@ -153,18 +154,32 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               final doc = docs[index];
               final data = doc.data() as Map<String, dynamic>;
               final bool isActive = data['isActive'] ?? true;
+              final String staffId = data['employeeId'] ?? doc.id;
+              final String staffName = data['name'] ?? 'Unknown';
 
               return Card(
                 elevation: 2,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 child: ListTile(
+                  onTap: () {
+                    // Navigate to staff portal view for this specific staff member
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StaffPortalScreen(
+                          staffId: staffId,
+                          staffName: staffName,
+                        ),
+                      ),
+                    );
+                  },
                   title: Text(
-                    data['name'] ?? 'Unknown',
+                    staffName,
                     style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
                   ),
                   subtitle: Text(
-                    'ID: ${data['employeeId']} | Desig: ${data['designation']}\nMobile: ${data['mobileNumber']} | Joined: ${data['joiningDate']}',
+                    'ID: $staffId | Desig: ${data['designation']}\nMobile: ${data['mobileNumber']} | Joined: ${data['joiningDate']}',
                     style: const TextStyle(color: Color(0xFF64748B)),
                   ),
                   isThreeLine: true,
